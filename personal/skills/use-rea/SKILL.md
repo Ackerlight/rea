@@ -52,7 +52,14 @@ request in a session on the Mac (Remote Control or SSH).
 - Big minified bundles hit REA's 300 s per-file timeout. Start with the Electron main
   process, preload and package.json (repeat `--source-path`), then add only the
   renderer files that matter. Raise `--analysis-timeout-ms` only when needed.
-- For big native binaries, raise `REA_GHIDRA_STARTUP_TIMEOUT_MS` instead of retrying blindly.
+- Ghidra's first full analysis of an app takes minutes. On the Mac a Swift app of about
+  1 MB took over 5.5 minutes, so `~/bin/rea` defaults `REA_GHIDRA_STARTUP_TIMEOUT_MS`
+  to 20 minutes. On the PC, set it if a native target times out.
+- **Use the MCP tools for native work, not the CLI.** Tested 2026-10-18 on Lightbox: over
+  MCP, `open_binary` and then the first query took about 6 minutes, and every later
+  query (`search_procedures`, `procedure_pseudo_code`, …) came back in under a second.
+  Each separate CLI command re-ran the full Ghidra analysis (16–17 min), even with
+  `--snapshot`. So open the target once, ask everything, then `close_binary`.
 - Spot-check a few cited locations against the extracted source or disassembly before
   relying on them.
 
