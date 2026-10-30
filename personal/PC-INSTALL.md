@@ -33,7 +33,7 @@ winget install --id EclipseAdoptium.Temurin.21.JDK -e
 Then open a **new** terminal and check:
 
 ```powershell
-node -v      # must be 22.19+, 24.11+, or 26+
+node -v      # REA 6.8 needs 22.23.4+, 24.22.1+, or 26.12.1+ (winget upgrade OpenJS.NodeJS.LTS if older)
 java -version  # must be 21 or newer, 64-bit
 ```
 
